@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "income-outcome-app-cb285": {
+      "hosting": {
+        "incomeOutcomeApp": [
+          "income-outcome-app-cb285"
+        ]
+      }
+    }
+  }
+}
