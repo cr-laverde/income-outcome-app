@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as authActions from '../auth/auth.actions';
+import * as incomeoutcomeActions from '../income-outcome/income-outcome.actions';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -13,6 +14,12 @@ import { User } from '../models/user.model';
 export class AuthService {
 
   userSubscription!: Subscription;
+  private _userAuth!: User | null;
+
+  get userAuth() {
+    return this._userAuth;
+    //return {... this._userAuth};
+  }
 
   constructor(
     public auth: AngularFireAuth,
@@ -26,13 +33,16 @@ export class AuthService {
         this.userSubscription = this.firestore.doc(`${ fireUser.uid }/usuario`).valueChanges()
           .subscribe( (fireStoreUser: any) =>  {
             const user = User.fromFirebae(fireStoreUser);
+            this._userAuth = user;
             this.store.dispatch( authActions.setUser({ user }) );
           });
       } else {
+        this._userAuth = null;
         if (this.userSubscription) {
           this.userSubscription.unsubscribe();
         }
         this.store.dispatch( authActions.unSetUser() );
+        this.store.dispatch( incomeoutcomeActions.unSetItems() );
       }
     });
   }
