@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/app.reducer';
+import { AppStateWithIncome } from '../income-outcome.reducer';
 import { IncomeOutcome } from 'src/app/models/income-outcome.model';
 
 import { MultiDataSet, Label } from 'ng2-charts';
@@ -22,7 +22,7 @@ export class StatisticsComponent implements OnInit {
   totalIncomes: number = 0;
   totalOutcomes: number = 0;
 
-  constructor( private store: Store<AppState> ) { }
+  constructor( private store: Store<AppStateWithIncome> ) { }
 
   ngOnInit(): void {
     this.store.select('incomeOutcome')

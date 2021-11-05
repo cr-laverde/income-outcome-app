@@ -30,7 +30,8 @@ export class AuthService {
   initAuthListener() {
     this.auth.authState.subscribe( fireUser => {
       if (fireUser) {
-        this.userSubscription = this.firestore.doc(`${ fireUser.uid }/usuario`).valueChanges()
+        this.userSubscription = this.firestore.doc(`${ fireUser.uid }/usuario`)
+          .valueChanges()
           .subscribe( (fireStoreUser: any) =>  {
             const user = User.fromFirebae(fireStoreUser);
             this._userAuth = user;
